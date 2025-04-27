@@ -1,0 +1,113 @@
+.quickSettings {
+  min-width: 10rem;
+  padding: 1.2rem;
+  margin: 10px;
+  background-color: #232323;
+  border: 1px solid #353535;
+  border-radius: 30px;
+  box-shadow: 0 0 10px #000;
+}
+
+button.dnd {
+  -gtk-icon-size: 1.5rem;
+  background-color: #232323;
+}
+
+/* Sink selector */
+popover {
+  min-width: 20rem;
+}
+
+.powerOptions {
+  background-color: #353535;
+  border-radius: 20px;
+  padding: 0.8rem;
+}
+
+.powerMenuTitle {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0px 10px;
+}
+
+.powerButton {
+  background: rebeccapurple;
+  padding: 0.9rem;
+  border-radius: 1.5rem;
+  background: #494949;
+}
+
+.menuButtons {
+  background-color: #353535;
+}
+
+/*Music player:*/
+
+.player {
+  background: #353535;
+  padding: 0.5rem;
+  border-radius: 30px;
+}
+
+.coverArt {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+  min-height: 150px;
+}
+
+.playerInfo {
+  margin: 0 10px;
+}
+
+.playerTitle {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.playerArtist {
+  font-size: 1rem;
+  color: #aaa;
+
+}
+
+/*Player controls section*/
+
+.playerControls {
+  padding-top: 1.8rem;
+}
+
+.playerSlider slider {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.playerSlider scale {
+  padding: 0;
+}
+
+.playerSlider trough {
+  min-height: 8px;
+}
+
+.playerSlider scale trough highlight {
+  background: #fff;
+}
+
+.test2{
+  background: rebeccapurple;
+}
+
+.test3 {
+  background: #494949;
+}
+
+.test4 {
+  background: #e37777;
+}

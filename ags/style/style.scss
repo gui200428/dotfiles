@@ -1,0 +1,109 @@
+//// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+//$fg-color: #{"@theme_fg_color"};
+//$bg-color: #{"@theme_bg_color"};
+//
+//window.Bar {
+//    background: rebeccapurple;
+//    color: $fg-color;
+//    font-weight: bold;
+//i
+//    >centerbox {
+//        background: $bg-color;
+//        border-radius: 10px;
+//        margin: 8px;
+//    }
+//
+//    button {
+//        border-radius: 8px;
+//        margin: 2px;
+//    }
+//}
+
+@use "./widgets/bar.scss";
+
+window {
+  background: transparent;
+  font-family: 'Sora';
+}
+
+// black background when powermenu is open
+window#powermenu {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 400px;
+}
+
+
+
+button {
+  background: transparent;
+  border-radius: 30px;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.invisibleButton {
+  background: transparent;
+}
+
+.invisibleButton:hover {
+  background: transparent;
+}
+
+.workspaceList {
+  background: transparent;
+  //padding: 0.3rem;
+  //border-radius: 8px;
+  //margin: 4px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+
+}
+
+.workspaceBtn {
+  background-color: rgba(255, 255, 255, 0.1);
+  //min-width: 1.6rem;
+  //min-height: 1.1rem;
+  border-radius: 30px;
+  transition: all 0.2s ease;
+  margin: 0 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.workspaceBtn.active {
+  background-color: #51A4E7; /* Verde vibrante */
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+  //min-height: 1.6rem;
+}
+
+.workspaceBtn.occupied {
+  background-color: #305d82; /* Roxo claro */
+  //min-height: 1.4rem;
+}
+
+.workspaceBtn.active.occupied {
+  background-color: #51A4E7; /* Verde mais claro */
+}
+
+//.workspaceList:hover {
+//  background: rgba(255, 255, 255, 0.1);
+//}
+
+.workspaceBtn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.workspaceBtn.active:hover {
+  background-color: #66BB6A; /* Verde mais claro */
+}
+
+.workspaceBtn.occupied:hover {
+  background-color: #AB47BC; /* Roxo mais claro */
+}
+
+.fade-out {
+  transition: opacity 300ms ease-out;
+  opacity: 0;
+}
+

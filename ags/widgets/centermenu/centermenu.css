@@ -1,0 +1,56 @@
+.centerMenu {
+    padding: 1.2rem;
+    margin: 10px;
+    background-color: #232323;
+    border: 1px solid #353535;
+    border-radius: 30px;
+    box-shadow: 0 0 10px #000;
+}
+
+calendar {
+    background: transparent;
+    border: none;
+}
+
+.calendar {
+    background: #353535;
+    padding: 1.2rem;
+    border-radius: 30px;
+}
+
+.calendarMenu {
+    padding-left: 15px;
+}
+
+.calendarPanel {
+    margin-bottom: 25px;
+}
+
+.calendarDay {
+    color: #999999;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.calendarDate {
+    color: #999999;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/*Notifications*/
+
+
+.notificationMenu {
+    padding-right: 10px;
+}
+
+.emptyList {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding-top: 112px;
+}
+
+.emptyList image {
+    -gtk-icon-size: 6rem;
+}

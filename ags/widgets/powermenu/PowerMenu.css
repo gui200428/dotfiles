@@ -1,0 +1,23 @@
+#powermenu box {
+    background-color: #232323;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+#powermenu image {
+    -gtk-icon-size: 4rem;
+    -gtk-icon-shadow: 0 0 1rem #fff;
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: #fff;
+}
+
+#powermenu .sleep, #powermenu .reboot { 
+    background-color: rgb(27, 123, 172);
+    box-shadow: 0 0 7px rgb(20, 87, 121);
+}
+#powermenu .shutdown {
+    background-color: rgb(172, 27, 27);
+    box-shadow: 0 0 12px rgb(121, 20, 20);
+}
