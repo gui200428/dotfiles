@@ -69,10 +69,16 @@ remove_package() {
 }
 
 backup_packages() {
+
+    if [ ! -d ~/.config/system-pkgs-bkp ]; then
+        echo -e "\033[1;33mDiretório de backup não existe. Criando...\033[0m"
+        mkdir -p ~/.config/system-pkgs-bkp
+    fi
+
     echo -e "\n\033[1;34mCriando backup dos pacotes instalados...\033[0m"
-    pacman -Qn > ~/.config/backup-pacotes/pacotes_oficiais.txt
-    pacman -Qm > ~/.config/backup-pacotes/pacotes_aur.txt
-    echo -e "\033[1;32mBackup salvo em ~/.config/backup-pacotes\033[0m"
+    pacman -Qn > ~/.config/system-pkgs-bkp/pacman_pkgs.txt
+    pacman -Qm > ~/.config/system-pkgs-bkp/aur_pkgs.txt
+    echo -e "\033[1;32mBackup salvo em ~/.config/system-pkgs-bkp\033[0m"
 }
 
 # Cores para melhor visualização
