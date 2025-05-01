@@ -15,7 +15,7 @@ DEST_DIR="$HOME/.cache/dotfiles_sync" # Opção mais persistente
 CONFIG_SOURCE_DIR="$HOME/.config"
 
 # Diretórios dentro de $CONFIG_SOURCE_DIR a serem sincronizados
-DIRS_TO_SYNC=("ags" "gtk-3.0" "gtk-4.0" "hypr" "Scripts" "system-pkgs-bkp")
+DIRS_TO_SYNC=("ags" "gtk-3.0" "gtk-4.0" "hypr" "Scripts" "system-pkgs-bkp" "nvim")
 # --------------------
 
 # --- Verificação de Dependências ---
