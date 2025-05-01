@@ -1,6 +1,7 @@
 import { App, Gdk, Gtk } from 'astal/gtk4';
 import { bind, Variable } from 'astal';
 import { GLib } from 'astal';
+import { toggleWindow } from '../../utils/windows';
 
 const datetime = GLib.DateTime.new_now_local();
 const date = datetime.format('%b %d')!.replace(/^\w/, c => c.toUpperCase());
@@ -9,22 +10,8 @@ const time = Variable<string>('').poll(1000,
 );
 
 export const CenterMenu = () =>
-  <button
-onButtonPressed={() => {
-    const win = App.get_window('centerMenu')!;
-    if (!win.visible) {
-        win.show();
-        win.get_style_context().remove_class('fade-out');
-        (win.child as Gtk.Revealer).revealChild = true;
-    } else {
-        (win.child as Gtk.Revealer).revealChild = false;
-        win.get_style_context().add_class('fade-out');
-        setTimeout(() => {
-            win.hide();
-            win.get_style_context().remove_class('fade-out');
-        }, 300);
-    }
-    }}
+<button
+    onButtonPressed={() => toggleWindow("centerMenu")}
     cursor={Gdk.Cursor.new_from_name('pointer', null)}
   >
     <box 

@@ -8,25 +8,9 @@ type PlayerProps = {
   player: AstalMpris.Player;
 }
 
-//const formatTime = (microseconds: number) => {
-//  const minutes = Math.floor(microseconds / 60);
-//  const seconds = microseconds % 60;
-//  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-//};
-const formatTime = (secondsWithDecimal: number): string => {
-  // Verifica se o valor é válido
-  if (typeof secondsWithDecimal !== 'number' || secondsWithDecimal < 0) {
-    return '0:00'; // Retorna um valor padrão para entradas inválidas
-  }
-  
-  // Arredonda para obter segundos inteiros
-  const totalSeconds = Math.floor(secondsWithDecimal);
-  
-  // Calcula os minutos e segundos
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  
-  // Formata a string de saída com os segundos tendo sempre dois dígitos
+const formatTime = (microseconds: number) => {
+  const minutes = Math.floor(microseconds / 60);
+  const seconds = microseconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
@@ -164,31 +148,15 @@ const Player = ({ player }: PlayerProps) => {
   );
 }
 
-//export const MusicPlayer = () => {
-  //const mpris = AstalMpris.get_default();
-//
-  //return (
-    //<box halign={Gtk.Align.CENTER} spacing={2} widthRequest={400}>
-      //{bind(mpris, "players").as(arr => 
-        //// Verifica se há players antes de renderizar
-        //arr && arr.length > 0 
-          //? arr.map(player => <Player player={player} />)
-          //: <></>
-      //)}
-//    </box>
-  //);
-//}
-
-// Alternativa: Se 'mpris.player' não funcionar, renderiza o primeiro da lista
 export const MusicPlayer = () => {
   const mpris = AstalMpris.get_default();
 
   return (
     <box halign={Gtk.Align.CENTER} spacing={2} widthRequest={400}>
-      {bind(mpris, "players").as(arr => // Volta a observar a lista
-        // Pega o primeiro player da lista, se existir
-        arr && arr.length > 0
-          ? <Player player={arr[0]} /> // Renderiza SÓ o primeiro
+      {bind(mpris, "players").as(arr => 
+        // Verifica se há players antes de renderizar
+        arr && arr.length > 0 
+          ? arr.map(player => <Player player={player} />)
           : <></>
       )}
     </box>

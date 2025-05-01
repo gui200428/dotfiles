@@ -1,65 +1,49 @@
-//import { BrightnessSlider } from '../../services/brightness';
-import { App, Astal, Gdk, Gtk } from "astal/gtk4";
+// widgets/centermenu/centermenu.tsx
+import { App, Astal, Gdk, Gtk } from "astal/gtk4"; // Gtk necessário
+// Importa os módulos de conteúdo
 import { Calendar } from "./modules/calendar";
 import { NotificationMenu } from "./modules/notificationMenu";
+// Importa o novo componente ScrimWindow
+import { ScrimWindow } from "../common/ScrimWindow";
 
-const hide = () => {
-  const win = App.get_window("centerMenu")!;
-  if (!win.visible) {
-    win.show();
-    win.get_style_context().remove_class("fade-out");
-    (win.child as Gtk.Revealer).revealChild = true;
-  } else {
-    (win.child as Gtk.Revealer).revealChild = false;
-    win.get_style_context().add_class("fade-out");
-    setTimeout(() => {
-      win.hide();
-      win.get_style_context().remove_class("fade-out");
-    }, 300);
-  }
-};
+// A função local 'hide' NÃO é mais necessária aqui.
+// A função global 'toggleWindow' será usada para abrir/fechar.
 
 export const CenterMenu = () => {
-  return (
-    <window
-      name="centerMenu"
-      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
-      application={App}
-      visible={false}
-      exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      keymode={Astal.Keymode.ON_DEMAND}
-      onKeyPressed={(_, key) => {
-        if (key == 65307) {
-          hide();
-        }
-      }}
+  // Define o conteúdo que irá dentro da ScrimWindow
+  const centerMenuContent = (
+    <box
+        widthRequest={400} // Largura do conteúdo
+        cssClasses={["centerMenu"]} // Sua classe CSS para estilo
+        vertical
     >
-      <revealer transitionType={Gtk.RevealerTransitionType.SLIDE_UP}>
-        <box
-          vertical
-          vexpand={true}
-          valign={Gtk.Align.START}
-          halign={Gtk.Align.CENTER}
-        >
-          <box
-            widthRequest={400}
-            cssClasses={["centerMenu"]}
-            vertical
-            vexpand={true}
-            valign={Gtk.Align.START}
-            halign={Gtk.Align.CENTER}
-          >
-            {/* Uma box com duas box dentro - horizontal */}
-            <box hexpand>
-              <NotificationMenu />
-              <Gtk.Separator orientation={Gtk.Orientation.VERTICAL} />
-              <box hexpand>
+        <box hexpand> {/* Box para organizar lado a lado */}
+            <NotificationMenu />
+            <Gtk.Separator
+                orientation={Gtk.Orientation.VERTICAL}
+                marginStart={10}
+                marginEnd={10}
+            />
+            <box hexpand> {/* Box para o calendário expandir */}
                 <Calendar />
-              </box>
             </box>
-          </box>
         </box>
-      </revealer>
-    </window>
+    </box>
+  );
+
+  // Usa o componente ScrimWindow
+  return (
+    <ScrimWindow
+        name="centerMenu" // Nome importante para hideAllWindows/toggleWindow
+        // Ancoragem para ocupar toda a altura (se desejado)
+        anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}
+        layer={Astal.Layer.TOP} // Camada apropriada
+        // Posicionamento do conteúdo dentro da ScrimWindow
+        child_halign={Gtk.Align.CENTER}
+        child_valign={Gtk.Align.START}
+        child_marginTop={20} // Margem do topo
+        // Passa o conteúdo definido acima
+        child={centerMenuContent}
+    />
   );
 };

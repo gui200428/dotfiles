@@ -1,6 +1,7 @@
 import { App, Gdk, Gtk } from 'astal/gtk4';
 import { bind } from 'astal';
 import Wp from 'gi://AstalWp';
+import { toggleWindow } from '../../utils/windows';
 
 const speaker = Wp.get_default()?.audio.defaultSpeaker!;
   
@@ -13,23 +14,10 @@ const PowerIcon = () =>
 
 export const Status = () =>
   <button
-onButtonPressed={() => {
-    const win = App.get_window('quickSettings')!;
-    if (!win.visible) {
-        win.show();
-        win.get_style_context().remove_class('fade-out');
-        (win.child as Gtk.Revealer).revealChild = true;
-    } else {
-        (win.child as Gtk.Revealer).revealChild = false;
-        win.get_style_context().add_class('fade-out');
-        setTimeout(() => {
-            win.hide();
-            win.get_style_context().remove_class('fade-out');
-        }, 300);
-    }
-    }}
+    onButtonPressed={() => toggleWindow("quickSettings")}
     cursor={Gdk.Cursor.new_from_name('pointer', null)}
     onScroll={(_, __, y) => speaker.volume = (y < 0) ? speaker.volume + 0.05 : speaker.volume - 0.05}
+
   >
     <box 
       spacing={7} 

@@ -6,8 +6,8 @@ import { topLeft, topRight } from './widgets/corners';
 import { calendar } from './widgets/calendar';
 import { QuickSettings } from './widgets/quicksettings/quicksettings';
 import { CenterMenu } from './widgets/centermenu/centermenu';
-import { launcher } from './widgets/launcher/launcher';
-//import { PowerMenu } from './widgets/powermenuOLD/PowerMenu';
+import { Launcher } from './widgets/launcher/launcher';
+//import { PowerMenu } from './widgets/powermenu/PowerMenu';
 import { notifications, clearOldestNotification } from './widgets/notifications/notifications';
 import Hyprland from 'gi://AstalHyprland?version=0.1';
 
@@ -43,14 +43,14 @@ App.start({
         calendar();
         CenterMenu();
         QuickSettings();
-        launcher();
+        Launcher();
         //PowerMenu();
     },
     requestHandler(req, res) {
         const reqArgs = req.split(" ");
         switch (reqArgs[0]) {
-            case "launcher":
-                App.toggle_window('launcher');
+            case "Launcher":
+                App.toggle_window('Launcher');
                 break;
         };
         //res("OK");

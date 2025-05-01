@@ -1,0 +1,105 @@
+//import { BrightnessSlider } from '../../services/brightness';
+import { App, Astal, Gdk, Gtk } from "astal/gtk4";
+import { Calendar } from "./modules/calendar";
+import { NotificationMenu } from "./modules/notificationMenu";
+
+const hide = () => {
+  const win = App.get_window("centerMenu")!;
+  if (!win.visible) {
+    win.show();
+    win.get_style_context().remove_class("fade-out");
+    (win.child as Gtk.Revealer).revealChild = true;
+  } else {
+    (win.child as Gtk.Revealer).revealChild = false;
+    win.get_style_context().add_class("fade-out");
+    setTimeout(() => {
+      win.hide();
+      win.get_style_context().remove_class("fade-out");
+    }, 300);
+  }
+};
+
+export const CenterMenu = () => {
+  return (
+    <window
+      name="centerMenu"
+      anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM}
+      application={App}
+      visible={false}
+      exclusivity={Astal.Exclusivity.EXCLUSIVE}
+      keymode={Astal.Keymode.ON_DEMAND}
+      onKeyPressed={(_, key) => {
+        if (key === Gdk.KEY_Escape) {
+          hide();
+        }
+      }}
+    >
+      <revealer transitionType={Gtk.RevealerTransitionType.SLIDE_UP}>
+        <box vertical hexpand vexpand>
+
+          {/* Top horizontal group: external side hit areas and center menu */}
+          <box
+            orientation={Gtk.Orientation.HORIZONTAL}
+            hexpand
+            vexpand={false}
+            halign={Gtk.Align.FILL}
+            valign={Gtk.Align.START}
+          >
+            {/* External left button covers left side */}
+            <button
+              onClicked={hide}
+              hexpand
+                            widthRequest={600}
+              cssClasses={['invisibleButton']}
+            />
+
+            {/* Inner group: internal hit areas and center menu */}
+            <box vertical halign={Gtk.Align.CENTER} valign={Gtk.Align.START}>
+              <box
+                orientation={Gtk.Orientation.HORIZONTAL}
+                halign={Gtk.Align.CENTER}
+                valign={Gtk.Align.START}
+              >
+                {/* Center menu fixed width, top-aligned */}
+                <box
+                  widthRequest={400}
+                  cssClasses={['centerMenu']}
+                  vertical
+                  halign={Gtk.Align.CENTER}
+                  valign={Gtk.Align.START}
+                >
+                  <box hexpand>
+                    <NotificationMenu />
+                    <Gtk.Separator orientation={Gtk.Orientation.VERTICAL} />
+                    <box hexpand>
+                      <Calendar />
+                    </box>
+                  </box>
+                </box>
+              </box>
+            </box>
+
+            {/* External right button covers right side */}
+
+            <button
+              onClicked={hide}
+              hexpand
+                            widthRequest={600}
+              cssClasses={['invisibleButton']}
+            />
+
+          </box>
+
+          {/* Bottom button covers remaining space */}
+          <button
+            onClicked={hide}
+            hexpand
+            vexpand
+            cssClasses={['invisibleButton']}
+          />
+        </box>
+      </revealer>
+    </window>
+  );
+};
+

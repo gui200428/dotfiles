@@ -1,0 +1,68 @@
+// widgets/quicksettings/quicksettings.tsx
+
+// --- Importações ---
+import { VolumeSlider } from './sound';
+// Gtk, Gdk, App, Astal, bind (se usar DND) são necessários
+import { App, Astal, Gdk, Gtk, bind } from 'astal/gtk4';
+import { execAsync } from 'astal';
+// import { DND } from '../notifications/notifications'; // Importe se usar DNDToggle
+import { PowerOptions } from './poweroptions';
+import { MusicPlayer } from './modules/musicplayer';
+// Importa ScrimWindow e utils
+import { ScrimWindow } from '../common/ScrimWindow';
+import { hideAllWindows, toggleWindow } from '../utils/windows'; // Ajuste o caminho
+
+// --- Componentes Internos ---
+
+// ScreenshotButton (igual ao anterior)
+const ScreenshotButton = () => (
+    <button /* ... */ > {/* Conteúdo do botão */} </button>
+);
+// DNDToggle (opcional, igual ao anterior)
+/* const DNDToggle = () => (
+    <button> ... </button>
+); */
+
+
+// --- Componente Principal QuickSettings ---
+export const QuickSettings = () => {
+
+    // Define o conteúdo (COMO DEFINIDO NA SEÇÃO 2 ACIMA)
+    const quickSettingsContent = (
+        <box widthRequest={400} cssClasses={['quickSettings']} vertical>
+            {/* Linha Superior */}
+            <box spacing={5} marginBottom={10} halign={Gtk.Align.END}>
+                {/* <DNDToggle /> */}
+                <ScreenshotButton />
+                <button tooltipText="Power Options / Actions" cssClasses={['menuButtons']} cursor={Gdk.Cursor.new_from_name('pointer', null)}>
+                    <image iconName="system-shutdown-symbolic"/>
+                </button>
+            </box>
+            {/* Módulos */}
+            <box marginBottom={5}><PowerOptions /></box>
+            <box marginBottom={5}><VolumeSlider /></box>
+            <box><MusicPlayer /></box>
+        </box>
+    );
+
+    // Usa o componente ScrimWindow
+    return (
+        <ScrimWindow
+            name="quickSettings" // Nome correto
+            anchor={ // Âncora de Tela Cheia
+                Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM |
+                Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT
+            }
+            layer={Astal.Layer.TOP}
+            // Posiciona o CONTEÚDO no canto superior direito
+            child_halign={Gtk.Align.END}   // Alinha horizontalmente à direita (END)
+            child_valign={Gtk.Align.START} // Alinha verticalmente no topo (START)
+            child_marginTop={10}          // Margem do topo da tela
+            child_marginEnd={10}          // Margem da direita da tela
+            // Passa o conteúdo
+            child={quickSettingsContent}
+        />
+    );
+};
+
+// Abrir/Fechar: Chamar toggleWindow("quickSettings") externamente.

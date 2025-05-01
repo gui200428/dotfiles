@@ -1,0 +1,111 @@
+// common/ScrimWindow.tsx
+import { App, Astal, Gdk, Gtk, Overlay } from "astal/gtk4"; // Precisa de Overlay
+import { hideAllWindows } from "../utils/windows"; // Importa a função global
+
+// Parâmetros simplificados
+type ScrimWindowParams = {
+    name: string; // Nome da janela (ex: "centerMenu")
+    anchor?: Astal.WindowAnchor; // Opcional: onde ancorar
+    exclusivity?: Astal.Exclusivity; // Opcional
+    layer?: Astal.Layer; // Opcional
+    child: JSX.Element; // O conteúdo principal do pop-up
+    child_halign?: Gtk.Align; // Alinhamento horizontal do conteúdo
+    child_valign?: Gtk.Align; // Alinhamento vertical do conteúdo
+    child_marginTop?: number; // Margem superior do conteúdo
+    child_marginBottom?: number; // Margem inferior do conteúdo
+    child_marginStart?: number; // Margem esquerda do conteúdo
+    child_marginEnd?: number; // Margem direita do conteúdo
+};
+
+export function ScrimWindow(
+    {
+        name,
+        anchor = Astal.WindowAnchor.TOP, // Default para TOP
+        exclusivity = Astal.Exclusivity.IGNORE,
+        layer = Astal.Layer.TOP,
+        child, // Conteúdo passado como prop
+        child_halign = Gtk.Align.CENTER, // Default para Centro H
+        child_valign = Gtk.Align.START, // Default para Topo V
+        child_marginTop = 0,
+        child_marginBottom = 0,
+        child_marginStart = 0,
+        child_marginEnd = 0,
+    }: ScrimWindowParams
+) {
+    let contentBoxRef: Gtk.Widget | null = null; // Referência para a box de conteúdo
+
+    return (
+        <window
+            name={name}
+            anchor={anchor}
+            application={App}
+            visible={false} // Começa invisível
+            exclusivity={exclusivity}
+            layer={layer}
+            keymode={Astal.Keymode.ON_DEMAND}
+            cssClasses={["transparentBackground"]} // Precisa de CSS: background: transparent;
+            // Fecha com Escape usando a função global
+            onKeyPressed={(_, keyval) => {
+                if (keyval === Gdk.KEY_Escape) {
+                    hideAllWindows();
+                }
+            }}
+            // Setup para o clique fora usando GestureClick
+            setup={(winWidget) => {
+                const gesture = new Gtk.GestureClick();
+                gesture.connect('pressed', (_gesture, _n_press, x, y) => {
+                    // Verifica se contentBoxRef foi definido
+                    if (!contentBoxRef) return;
+
+                    // Obtém a posição e tamanho da caixa de conteúdo relativo à janela
+                    const [_, childX, childY] = contentBoxRef.translate_coordinates(winWidget, 0, 0);
+                    const allocation = contentBoxRef.get_allocation();
+
+                    // Verifica se o clique (x, y) está DENTRO da caixa de conteúdo
+                    const clickInsideContent =
+                        x >= childX &&
+                        x <= childX + allocation.width &&
+                        y >= childY &&
+                        y <= childY + allocation.height;
+
+                    if (clickInsideContent) {
+                        // console.log(`Click inside ${name} content - ignoring.`); // Debug
+                        return; // Não faz nada se clicou dentro
+                    }
+
+                    // Se chegou aqui, o clique foi FORA da caixa de conteúdo
+                    // console.log(`Click outside ${name} content - hiding all.`); // Debug
+                    hideAllWindows(); // Fecha todas as janelas definidas
+                });
+                winWidget.add_controller(gesture); // Adiciona o detector de gestos à janela
+            }}
+        >
+            {/* Revealer para animação */}
+            <revealer transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}>
+                {/* Overlay para colocar conteúdo sobre fundo invisível */}
+                <overlay hexpand vexpand>
+                    {/* 1. Fundo do Overlay (Não precisa ser botão, pode ser Box) */}
+                    {/* É importante que ele exista para o overlay ter tamanho */}
+                    <box hexpand vexpand cssClasses={['scrimBackground']} />
+                     {/* Alternativa: Usar botão invisível se a box não funcionar */}
+                     {/* <button hexpand vexpand cssClasses={['invisibleButton']} /> */}
+
+                    {/* 2. Conteúdo Principal (o 'child' passado como prop) */}
+                    {/* Envolvido em uma Box para aplicar alinhamento e margens */}
+                    <box
+                        halign={child_halign}
+                        valign={child_valign}
+                        marginTop={child_marginTop}
+                        marginBottom={child_marginBottom}
+                        marginStart={child_marginStart}
+                        marginEnd={child_marginEnd}
+                        // Obtém a referência a esta box para o cálculo do clique
+                        setup={widget => contentBoxRef = widget}
+                    >
+                        {child} {/* Renderiza o conteúdo passado */}
+                    </box>
+                </overlay>
+            </revealer>
+        </window>
+    );
+}
